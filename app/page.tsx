@@ -41,8 +41,11 @@ export default function Home() {
 
         <div className="relative z-10 max-w-5xl mx-auto h-full px-6 flex flex-col justify-center items-start text-left text-white gap-4">
           <span className="w-16 h-1 bg-accent-mint" />
-          <h1 className="font-bold tracking-tight uppercase text-3xl sm:text-5xl md:text-6xl drop-shadow-md">
-            Hojímerany.sk
+          <h1 className="font-extrabold tracking-tight text-3xl sm:text-5xl md:text-6xl drop-shadow-md">
+            hojime<span className="text-accent-mint">rany</span>
+            <span className="text-xl sm:text-2xl md:text-3xl font-mono text-white/80 font-normal ml-1">
+              .sk
+            </span>
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-white/95 max-w-xl leading-relaxed drop-shadow-sm">
             Odborný portál pre širokú verejnosť aj špecialistov hľadajúcich

@@ -1,0 +1,19 @@
+services:
+  hojimerany-portal:
+    image: ghcr.io/${IMAGE_REPO:-mpodmanicky-dev/hojimerany-portal}:latest
+    container_name: hojimerany-portal
+    restart: always
+    ports:
+      # Host port 3003 namapovaný na interný kontajnerový port 3000
+      - "127.0.0.1:3003:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+

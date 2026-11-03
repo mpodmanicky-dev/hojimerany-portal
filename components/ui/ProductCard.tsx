@@ -5,6 +5,7 @@ import { DetailedProduct } from "@/constants/products";
 import { appendUtm } from "@/constants/pharmacy-mesitran";
 import { trackPharmacyClick, trackEvent } from "@/lib/analytics";
 import { SweepButton } from "@/components/ui/SweepButton";
+import { IconCheck, IconShield, IconHelp } from "@/components/ui/Icons";
 
 interface ProductCardProps {
   product: DetailedProduct;
@@ -12,6 +13,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [showPharmacies, setShowPharmacies] = useState(false);
+  const [activeRegTab, setActiveRegTab] = useState<"none" | "pil" | "spc">("none");
 
   const handlePharmacyClick = (pharmacyName: string, directUrl: string) => {
     trackPharmacyClick(pharmacyName, product.id, directUrl);
@@ -23,7 +25,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl border border-accent-mint/30 flex flex-col gap-6"
     >
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-accent-mint/20 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-accent-mint/20 pb-4">
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-accent-teal">
             {product.role}
@@ -32,8 +34,16 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h2>
         </div>
-        <div className="text-xs font-mono text-clinical-blue/60 self-start sm:self-auto">
-          {product.ceCertification}
+        <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+          <span className="px-2.5 py-1 rounded-full bg-clinical-blue/10 text-clinical-blue font-bold">
+            ŠÚKL: {product.suklCode}
+          </span>
+          <span className="px-2.5 py-1 rounded-full bg-accent-teal/10 text-accent-teal font-bold">
+            ADC: {product.adcCode}
+          </span>
+          <span className="px-2.5 py-1 rounded-full bg-accent-mint/20 text-clinical-blue">
+            {product.ceCertification}
+          </span>
         </div>
       </div>
 
@@ -86,7 +96,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-clinical-blue/80">
           {product.clinicalHighlights.map((hl, idx) => (
             <li key={idx} className="flex items-start gap-2">
-              <span className="text-accent-mint font-bold select-none">✓</span>
+              <IconCheck size={16} className="text-accent-mint shrink-0 mt-0.5" />
               <span>{hl}</span>
             </li>
           ))}
@@ -105,11 +115,85 @@ export default function ProductCard({ product }: ProductCardProps) {
         </ol>
       </div>
 
-      {/* Balenia & CTA Kúpiť v lekárni */}
+      {/* Sekcia PIL a SPC (Zákonná dokumentácia a bezpečnosť) */}
+      <div className="rounded-2xl border border-accent-mint/30 bg-background p-4 flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <IconShield size={18} className="text-accent-teal shrink-0" />
+            <span className="font-bold text-xs uppercase tracking-wider text-clinical-blue">
+              Zákonná a regulačná dokumentácia (PIL / SPC)
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveRegTab(activeRegTab === "pil" ? "none" : "pil")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold border transition-colors duration-200 ${
+                activeRegTab === "pil"
+                  ? "bg-clinical-blue text-white border-clinical-blue"
+                  : "bg-white text-clinical-blue border-clinical-blue/30 hover:bg-clinical-blue/5"
+              }`}
+            >
+              Príbalový leták (PIL)
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveRegTab(activeRegTab === "spc" ? "none" : "spc")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold border transition-colors duration-200 ${
+                activeRegTab === "spc"
+                  ? "bg-clinical-blue text-white border-clinical-blue"
+                  : "bg-white text-clinical-blue border-clinical-blue/30 hover:bg-clinical-blue/5"
+              }`}
+            >
+              Súhrn údajov (SPC)
+            </button>
+          </div>
+        </div>
+
+        {/* PIL Rozbalený obsah */}
+        {activeRegTab === "pil" && (
+          <div className="mt-2 p-4 bg-white rounded-xl border border-accent-mint/30 text-xs text-clinical-blue/85 flex flex-col gap-2 animate-in fade-in duration-200">
+            <h4 className="font-bold text-clinical-blue">{product.regulatory.pilTitle}</h4>
+            <p className="leading-relaxed">{product.regulatory.pilSummary}</p>
+            <ul className="list-disc pl-5 space-y-1">
+              {product.regulatory.pilPoints.map((p, idx) => (
+                <li key={idx}>{p}</li>
+              ))}
+            </ul>
+            <div className="text-[11px] text-clinical-blue/60 pt-2 border-t border-accent-mint/20">
+              Distribútor a držiteľ registrácie v SR: {product.distributor}
+            </div>
+          </div>
+        )}
+
+        {/* SPC Rozbalený obsah */}
+        {activeRegTab === "spc" && (
+          <div className="mt-2 p-4 bg-white rounded-xl border border-accent-mint/30 text-xs text-clinical-blue/85 flex flex-col gap-2 animate-in fade-in duration-200">
+            <h4 className="font-bold text-clinical-blue">{product.regulatory.spcTitle}</h4>
+            <p className="leading-relaxed">{product.regulatory.spcSummary}</p>
+            <ul className="list-disc pl-5 space-y-1">
+              {product.regulatory.spcPoints.map((p, idx) => (
+                <li key={idx}>{p}</li>
+              ))}
+            </ul>
+            <div className="text-[11px] text-clinical-blue/60 pt-2 border-t border-accent-mint/20">
+              Klasifikácia: {product.category} ({product.ceCertification})
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Balenia, Distribútor & CTA Kúpiť v lekárni */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-4 border-t border-accent-mint/20">
-        <div className="text-xs text-clinical-blue/70">
-          <span className="font-semibold text-clinical-blue">Dostupné balenia:</span>{" "}
-          {product.packageSizes.join(", ")}
+        <div className="text-xs text-clinical-blue/70 flex flex-col gap-0.5">
+          <div>
+            <span className="font-semibold text-clinical-blue">Dostupné balenia:</span>{" "}
+            {product.packageSizes.join(", ")}
+          </div>
+          <div className="text-[11px]">
+            <span className="font-semibold text-clinical-blue">Distribúcia v SR:</span>{" "}
+            {product.distributor}
+          </div>
         </div>
 
         <SweepButton
@@ -123,7 +207,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           }}
           className="text-xs sm:text-sm py-3 px-6"
         >
-          {showPharmacies ? "Skryť lekárne" : "Kde kúpiť v lekárňach"}
+          {showPharmacies ? "Skryť lekárne" : "Kde kúpiť v lekárňach →"}
         </SweepButton>
       </div>
 
@@ -165,7 +249,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     {pharmacy.note}
                   </p>
                   <span className="text-xs font-semibold text-accent-teal">
-                    Prejsť na produkt
+                    Prejsť na produkt →
                   </span>
                 </a>
               );
@@ -176,4 +260,3 @@ export default function ProductCard({ product }: ProductCardProps) {
     </article>
   );
 }
-

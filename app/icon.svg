@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#1C3F3A" />
+  <!-- Medical healing cross + droplet fusion -->
+  <path d="M32 10C27 18 20 28 20 37C20 44.73 25.37 51 32 51C38.63 51 44 44.73 44 37C44 28 37 18 32 10Z" fill="#A8DF8E" fill-opacity="0.25" />
+  <!-- Crisp clinical cross -->
+  <path d="M32 18V46M18 32H46" stroke="#A8DF8E" stroke-width="4.5" stroke-linecap="round" />
+  <!-- Radiant core dot -->
+  <circle cx="32" cy="32" r="3.5" fill="#FFFFFF" />
+</svg>
+

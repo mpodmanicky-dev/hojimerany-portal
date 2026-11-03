@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { NAV_ROUTES } from "@/constants/routes";
+import Logo from "@/components/ui/Logo";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -42,16 +43,7 @@ export default function Header() {
       {/* Top Navbar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-accent-mint/90 backdrop-blur-xl border-b border-accent-mint/30 px-6 py-4 sm:px-10 flex flex-row items-center justify-between transition-all duration-300 shadow-xs">
         {/* Logo */}
-        <Link
-          href="/"
-          onClick={() => setOpen(false)}
-          className="group flex items-center gap-2 select-none"
-        >
-          <span className="w-2.5 h-2.5 rounded-full bg-clinical-blue transition-transform duration-200 group-hover:scale-125" />
-          <span className="text-background font-bold text-2xl tracking-tight transition-colors duration-200 group-hover:text-clinical-blue">
-            Hojímerany
-          </span>
-        </Link>
+        <Logo variant="light" onClick={() => setOpen(false)} />
 
         {/* Desktop Quick Nav + Toggle Button */}
         <div className="flex items-center gap-6">
@@ -151,7 +143,9 @@ export default function Header() {
 
           {/* Footer note in overlay */}
           <div className="pt-8 border-t border-background/20 w-full flex flex-col items-center gap-2 text-xs text-background/80">
-            <p className="font-semibold text-clinical-blue">Hojímerany.sk</p>
+            <p className="font-semibold text-clinical-blue text-sm">
+              hojime<span className="text-background">rany</span>.sk
+            </p>
             <p>Odborný sprievodca liečbou akútnych a chronických rán</p>
           </div>
         </div>
