@@ -10,22 +10,17 @@ permissions:
   contents: read
   packages: write
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ghcr.io/mpodmanicky-dev/hojimerany-portal
+
 jobs:
   build-and-push:
     name: Build Docker Image & Push to GHCR
     runs-on: ubuntu-latest
-    outputs:
-      image_tag: ${{ steps.meta.outputs.image_tag }}
-      repo_lower: ${{ steps.repo_lower.outputs.repo }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Lowercase Repository Name
-        id: repo_lower
-        run: |
-          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          echo "repo=$REPO_LOWER" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
         uses: actions/setup-buildx-action@v3
@@ -33,7 +28,7 @@ jobs:
       - name: Log in to GitHub Container Registry (GHCR)
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -43,8 +38,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ steps.repo_lower.outputs.repo }}:latest
-            ghcr.io/${{ steps.repo_lower.outputs.repo }}:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -59,24 +54,20 @@ jobs:
           host: ${{ secrets.AZURE_HOST }}
           username: ${{ secrets.AZURE_USER }}
           key: ${{ secrets.AZURE_SSH_KEY }}
-          envs: GITHUB_TOKEN
           script: |
             set -e
             echo "==> Deploying hojimerany-portal to Azure VPS on localhost:3003..."
 
-            # Priečinok pre aplikáciu na serveri
-            APP_DIR="~/apps/hojimerany-portal"
-            sudo mkdir -p $APP_DIR
-            sudo chown -R ${{ secrets.AZURE_USER }}:${{ secrets.AZURE_USER }} $APP_DIR
-            cd $APP_DIR
+            # Priečinok pre aplikáciu v domovskom adresári používateľa
+            APP_DIR="$HOME/apps/hojimerany-portal"
+            mkdir -p "$APP_DIR"
+            cd "$APP_DIR"
 
-            REPO_LOWER="${{ needs.build-and-push.outputs.repo_lower }}"
-
-            # Príprava docker-compose.yml
+            # Príprava docker-compose.yml na serveri
             cat << 'EOF' > docker-compose.yml
             services:
               hojimerany-portal:
-                image: ghcr.io/${REPO_LOWER}:latest
+                image: ghcr.io/mpodmanicky-dev/hojimerany-portal:latest
                 container_name: hojimerany-portal
                 restart: always
                 ports:
@@ -93,8 +84,8 @@ jobs:
                   start_period: 10s
             EOF
 
-            # Prihlásenie do GHCR na stiahnutie privátneho/verejného imagu
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            # Prihlásenie do GHCR na stiahnutie najnovšieho buildu
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
             # Pull a reštart kontajnera
             docker compose pull
@@ -105,4 +96,3 @@ jobs:
 
             echo "==> Deployment úspešný! Aplikácia beží na 127.0.0.1:3003."
             docker ps --filter "name=hojimerany-portal"
-
