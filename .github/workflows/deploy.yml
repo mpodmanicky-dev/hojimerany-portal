@@ -76,7 +76,7 @@ jobs:
                 container_name: hojimerany-portal
                 restart: always
                 ports:
-                  - "127.0.0.1:3003:3000"
+                  - "3003:3000"
                 environment:
                   - NODE_ENV=production
                   - PORT=3000
