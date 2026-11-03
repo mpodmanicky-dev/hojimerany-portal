@@ -4,7 +4,7 @@ declare global {
   interface Window {
     dataLayer?: Record<string, unknown>[];
     gtag?: (
-      command: "event" | "config" | "js",
+      command: "event" | "config" | "js" | "consent",
       action: string,
       params?: Record<string, unknown>
     ) => void;

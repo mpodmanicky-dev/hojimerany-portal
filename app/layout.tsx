@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
+import CookieBanner from "@/components/ui/CookieBanner";
 
 export const metadata: Metadata = {
   title: "Hojímerany.sk - webový portál pre liečbu akútnych a chronických rán",
@@ -39,6 +40,7 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );
