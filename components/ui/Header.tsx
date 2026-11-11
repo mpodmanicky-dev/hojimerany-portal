@@ -39,9 +39,9 @@ export default function Header() {
   }, [pathname]);
 
   return (
-    <div className="relative">
+    <div className="relative bg-accent-mint">
       {/* Top Navbar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-accent-mint/90 backdrop-blur-xl border-b border-accent-mint/30 px-6 py-4 sm:px-10 flex flex-row items-center justify-between transition-all duration-300 shadow-xs">
+      <header className="fixed top-0 left-0 right-0 z-50 h-20 bg-accent-mint px-6 sm:px-10 flex flex-row items-center justify-between transition-all duration-300">
         {/* Logo */}
         <Logo variant="light" onClick={() => setOpen(false)} />
 
@@ -152,7 +152,7 @@ export default function Header() {
       </div>
 
       {/* Spacer to push content below fixed header */}
-      <div className="h-20" />
+      <div className="h-20 bg-accent-mint" />
     </div>
   );
 }

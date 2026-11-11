@@ -4,6 +4,9 @@ import Triage from "@/components/Triage";
 import JsonLd from "@/components/seo/JsonLd";
 import { SweepLink } from "@/components/ui/SweepButton";
 import { generateMedicalWebPageSchema } from "@/lib/seo";
+import Aqvitox from "@/components/products/aqvitox";
+import Mesitran from "@/components/products/mesitran";
+import Aqvidine from "@/components/products/aqvidine";
 
 export const metadata: Metadata = {
   title: "Hojímerany.sk - webový portál pre liečbu akútnych a chronických rán",
@@ -23,11 +26,11 @@ export default function Home() {
   });
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-background font-sans min-h-screen">
+    <div className="flex flex-col flex-1 items-center justify-start bg-background font-sans min-h-screen">
       <JsonLd data={homeSchema} />
 
       {/* Panoramatický Edge-to-Edge Hero Banner */}
-      <section className="relative w-full h-[360px] sm:h-[460px] md:h-[520px] overflow-hidden">
+      <section className="relative w-full h-[360px] sm:h-[460px] md:h-[520px] overflow-hidden -mt-[1px]">
         <Image
           src="/images/hero-wound-care.jpg"
           alt="Moderná a šetrná starostlivosť o rany - Hojímerany.sk"
@@ -90,6 +93,9 @@ export default function Home() {
           <div className="w-full mt-2">
             <Triage />
           </div>
+          <Aqvitox />
+          <Mesitran />
+          <Aqvidine />
         </div>
       </main>
     </div>

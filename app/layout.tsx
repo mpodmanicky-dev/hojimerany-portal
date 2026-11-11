@@ -36,9 +36,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased flex flex-col min-h-screen">
         <Header />
-        <div className="flex-1">
           {children}
-        </div>
         <Footer />
         <CookieBanner />
       </body>

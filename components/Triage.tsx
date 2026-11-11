@@ -31,7 +31,7 @@ export default function Triage() {
   const [activeRedFlagReason, setActiveRedFlagReason] = useState<string | null>(null);
   const [activeResultId, setActiveResultId] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
-  const [modalProduct, setModalProduct] = useState<"aqvitox" | "mesitran" | null>(null);
+  const [modalProduct, setModalProduct] = useState<"aqvitox" | "mesitran" | "aqvidine" | null>(null);
 
   const currentStep: TriageStep | undefined = TRIAGE_STEPS[currentStepId];
   const activeResult: TriageResult | undefined = activeResultId
@@ -158,8 +158,13 @@ export default function Triage() {
     });
   };
 
-  const handleOpenPharmacyModal = (product: "aqvitox" | "mesitran") => {
-    const prodName = product === "aqvitox" ? "Aqvitox-D roztok" : (mesitranProduct?.name || "L-Mesitran");
+  const handleOpenPharmacyModal = (product: "aqvitox" | "mesitran" | "aqvidine") => {
+    const prodName =
+      product === "aqvitox"
+        ? "Aqvitox-D roztok"
+        : product === "aqvidine"
+        ? "Aqvidine jódové krytie"
+        : (mesitranProduct?.name || "L-Mesitran");
     trackPharmacyModalOpen(product, prodName);
     setModalProduct(product);
   };
@@ -183,7 +188,7 @@ export default function Triage() {
       >
         {/* ================= STAV 1: RED FLAG URGENTNÉ VAROVANIE ================= */}
         {activeRedFlagReason && (
-          <div className="bg-background shadow-xl rounded-3xl p-6 sm:p-10 md:p-12 border-2 border-red-200 flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
               <span className="w-3.5 h-3.5 rounded-full bg-red-600"></span>
               <span className="text-xs font-mono uppercase tracking-widest text-red-600 font-bold">
@@ -242,7 +247,7 @@ export default function Triage() {
 
         {/* ================= STAV 2: VÝSLEDOK / PROTOKOL A PRODUKTY ================= */}
         {!activeRedFlagReason && activeResult && (
-          <div className="bg-background shadow-xl rounded-3xl p-6 sm:p-10 md:p-14 border border-clinical-blue/10 flex flex-col gap-10">
+          <div className="flex flex-col gap-10">
             {/* Desktop progress bar integrovaný priamo v sprievodcovi */}
             <div className="hidden md:flex flex-col gap-2 pb-6 border-b border-clinical-blue/10">
               <div className="flex items-center justify-between text-xs text-clinical-blue/70 font-semibold">
@@ -316,7 +321,7 @@ export default function Triage() {
                           <button
                             type="button"
                             onClick={() => handleOpenPharmacyModal("aqvitox")}
-                            className="w-full sm:w-auto self-start py-2.5 px-6 bg-clinical-blue text-background font-semibold rounded-full shadow-xl hover:bg-accent-mint hover:text-background transition-colors duration-200 text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                            className="w-full sm:w-auto self-start py-2.5 px-6 bg-[#085E95] text-white font-semibold rounded-full shadow-md hover:bg-[#064a75] transition-colors duration-200 text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                           >
                             <span>Kde kúpiť Aqvitox-D (Lekárne)</span>
                             <span>→</span>
@@ -329,9 +334,22 @@ export default function Triage() {
                           <button
                             type="button"
                             onClick={() => handleOpenPharmacyModal("mesitran")}
-                            className="w-full sm:w-auto self-start py-2.5 px-6 bg-mesitran text-background font-semibold rounded-full shadow-xl hover:bg-mesitran-accent hover:text-background transition-colors duration-200 text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                            className="w-full sm:w-auto self-start py-2.5 px-6 bg-[#D97706] text-white font-semibold rounded-full shadow-md hover:bg-[#B45309] transition-colors duration-200 text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                           >
                             <span>Kde kúpiť L-Mesitran (Lekárne)</span>
+                            <span>→</span>
+                          </button>
+                        </div>
+                      )}
+
+                      {act.productKey === "aqvidine" && (
+                        <div className="pt-2">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenPharmacyModal("aqvidine")}
+                            className="w-full sm:w-auto self-start py-2.5 px-6 bg-[#F26F01] text-white font-semibold rounded-full shadow-md hover:bg-[#c95b00] transition-colors duration-200 text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+                          >
+                            <span>Kde kúpiť Aqvidine (Lekárne)</span>
                             <span>→</span>
                           </button>
                         </div>
@@ -378,7 +396,7 @@ export default function Triage() {
 
         {/* ================= STAV 3: AKTÍVNA OTÁZKA SPRIEVODCU ================= */}
         {!activeRedFlagReason && !activeResult && currentStep && (
-          <div className="bg-background shadow-xl rounded-3xl p-6 sm:p-10 md:p-14 border border-clinical-blue/10 flex flex-col gap-8">
+          <div className="flex flex-col gap-8">
             {/* Desktop progress bar integrovaný priamo v sprievodcovi */}
             <div className="hidden md:flex flex-col gap-2 pb-6 border-b border-clinical-blue/10">
               <div className="flex items-center justify-between text-xs text-clinical-blue/70 font-semibold">

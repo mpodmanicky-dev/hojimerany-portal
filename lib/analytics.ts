@@ -21,7 +21,8 @@ export type TriageFunnelEvent =
   | "triage_complete"
   | "triage_pharmacy_modal_open"
   | "triage_pharmacy_modal_close"
-  | "pharmacy_outbound_click";
+  | "pharmacy_outbound_click"
+  | "regulatory_doc_click";
 
 export interface AnalyticsEventParams {
   step_number?: number;
@@ -33,11 +34,12 @@ export interface AnalyticsEventParams {
   option_label?: string;
   result_id?: string;
   result_title?: string;
-  product_key?: "aqvitox" | "mesitran" | string;
+  product_key?: "aqvitox" | "mesitran" | "aqvidine" | string;
   product_name?: string;
   pharmacy_id?: string;
   pharmacy_name?: string;
   destination_url?: string;
+  doc_type?: "spc" | "pil" | string;
   red_flag_reason?: string;
   history_length?: number;
   [key: string]: unknown;
@@ -122,10 +124,25 @@ export function trackRedFlag(stepId: string, reason: string, category?: string) 
   });
 }
 
-export function trackPharmacyModalOpen(productKey: "aqvitox" | "mesitran", productName: string) {
+export function trackPharmacyModalOpen(
+  productKey: "aqvitox" | "mesitran" | "aqvidine" | string,
+  productName: string
+) {
   trackEvent("triage_pharmacy_modal_open", {
     product_key: productKey,
     product_name: productName,
+  });
+}
+
+export function trackRegulatoryDocClick(
+  productKey: "aqvitox" | "mesitran" | "aqvidine" | string,
+  docType: "spc" | "pil",
+  destinationUrl: string
+) {
+  trackEvent("regulatory_doc_click", {
+    product_key: productKey,
+    doc_type: docType,
+    destination_url: destinationUrl,
   });
 }
 

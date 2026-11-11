@@ -90,8 +90,23 @@ export function generateHowToSchema(options: {
   };
 }
 
+export interface ProductOfferItem {
+  seller: string;
+  price: number | string;
+  priceCurrency?: string;
+  url: string;
+  availability?: string;
+}
+
+export interface ProductReviewItem {
+  author: string;
+  datePublished: string;
+  reviewBody: string;
+  ratingValue: number;
+}
+
 /**
- * Generuje Schema.org Product / MedicalDevice
+ * Generuje Schema.org Product / MedicalDevice pre Google Rich Snippets (hviezdičky, ceny, recenzie, sklad)
  */
 export function generateMedicalDeviceSchema(options: {
   name: string;
@@ -99,8 +114,24 @@ export function generateMedicalDeviceSchema(options: {
   brand: string;
   category: string;
   url: string;
+  image?: string;
+  sku?: string;
+  gtin13?: string;
+  mpn?: string;
+  lowPrice?: number | string;
+  highPrice?: number | string;
+  priceCurrency?: string;
+  offerCount?: number;
+  offers?: ProductOfferItem[];
+  aggregateRating?: {
+    ratingValue: number | string;
+    reviewCount: number;
+    bestRating?: number | string;
+    worstRating?: number | string;
+  };
+  reviews?: ProductReviewItem[];
 }) {
-  return {
+  const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: options.name,
@@ -111,11 +142,83 @@ export function generateMedicalDeviceSchema(options: {
     },
     category: options.category,
     url: options.url,
-    offers: {
+  };
+
+  if (options.image) {
+    schema.image = options.image;
+  }
+
+  if (options.sku) {
+    schema.sku = options.sku;
+  }
+
+  if (options.gtin13) {
+    schema.gtin13 = options.gtin13;
+  }
+
+  if (options.mpn) {
+    schema.mpn = options.mpn;
+  }
+
+  // AggregateOffer s konkrétnymi ponukami lekární
+  if (options.lowPrice) {
+    schema.offers = {
+      "@type": "AggregateOffer",
+      priceCurrency: options.priceCurrency || "EUR",
+      lowPrice: options.lowPrice,
+      highPrice: options.highPrice || options.lowPrice,
+      offerCount: options.offerCount || (options.offers ? options.offers.length : 1),
+      availability: "https://schema.org/InStock",
+      offers: options.offers?.map((offer) => ({
+        "@type": "Offer",
+        price: offer.price,
+        priceCurrency: offer.priceCurrency || "EUR",
+        url: offer.url,
+        availability: offer.availability || "https://schema.org/InStock",
+        seller: {
+          "@type": "Organization",
+          name: offer.seller,
+        },
+      })),
+    };
+  } else {
+    schema.offers = {
       "@type": "AggregateOffer",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
-    },
-  };
+    };
+  }
+
+  // AggregateRating (hviezdičky vo vyhľadávaní)
+  if (options.aggregateRating) {
+    schema.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: options.aggregateRating.ratingValue,
+      reviewCount: options.aggregateRating.reviewCount,
+      bestRating: options.aggregateRating.bestRating || "5",
+      worstRating: options.aggregateRating.worstRating || "1",
+    };
+  }
+
+  // Recenzie
+  if (options.reviews && options.reviews.length > 0) {
+    schema.review = options.reviews.map((rev) => ({
+      "@type": "Review",
+      author: {
+        "@type": "Person",
+        name: rev.author,
+      },
+      datePublished: rev.datePublished,
+      reviewBody: rev.reviewBody,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: rev.ratingValue,
+        bestRating: "5",
+        worstRating: "1",
+      },
+    }));
+  }
+
+  return schema;
 }
 

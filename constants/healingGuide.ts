@@ -3,6 +3,10 @@ export interface HealingTopic {
   slug: string;
   title: string;
   subtitle: string;
+  badge: string;
+  accentColor: string;
+  image: string;
+  imageAlt: string;
   searchKeywords: string[];
   excerpt: string;
   mistakes: string[];
@@ -10,6 +14,7 @@ export interface HealingTopic {
     step: number;
     title: string;
     description: string;
+    productKey?: "aqvitox" | "mesitran" | "aqvidine";
     productRecommendation?: string;
   }[];
 }
@@ -25,6 +30,10 @@ export const HEALING_TOPICS: HealingTopic[] = [
     slug: "popaleniny-domaca-liecba",
     title: "Popáleniny v domácnosti: Prvá pomoc a hojenie bez jaziev",
     subtitle: "Overené medicínske postupy pri obarení parou, vriacou vodou a dotyku horúcich predmetov",
+    badge: "1. Stupeň & 2. Stupeň",
+    accentColor: "#D97706",
+    image: "/images/hojenie-popaleniny.jpg",
+    imageAlt: "Prvá pomoc a vlhké ošetrenie popáleniny medicínskym medom L-Mesitran",
     searchKeywords: [
       "popáleniny doma",
       "popáleniny liečba",
@@ -33,32 +42,42 @@ export const HEALING_TOPICS: HealingTopic[] = [
       "ako sa vyhnúť jazvám po popálení",
     ],
     excerpt:
-      "Správne ochladenie a aplikácia medicínskeho medového gélu L-Mesitran zastavujú prestup tepla do hĺbky tkaniva a skracujú čas regenerácie na polovicu.",
+      "Správne ochladenie čistou vodou a následná aplikácia medicínskeho medového gélu L-Mesitran zastavujú prestup tepla do hĺbky tkaniva, uľavujú od pálčivej bolesti a skracujú čas regenerácie na polovicu bez vzniku stiahnutej jazvy.",
     mistakes: [
-      "Nikdy neaplikujte maslo, olej, masť ani múku - mýty o tuku 'uzatvárajú' teplo v pokožke a vedú k masívnej bakteriálnej infekcii.",
-      "Nikdy nepoužívajte ľad ani ľadovú vodu - spôsobujú cievny spazmus a sekundárne omrznutie už aj tak traumatizovaných buniek.",
-      "Nikdy neprepichujte pľuzgiere - sterilná tekutina vo vnútri chráni obnaženú dermis.",
+      "Nikdy neaplikujte maslo, olej, bravčovú masť ani múku – mastný tuk 'uzatvára' teplo v pokožke a vedie k sekundárnej infekcii.",
+      "Nikdy nepoužívajte ľad ani ľadovú vodu – spôsobuje okamžitý cievny spazmus a omrznutie už aj tak traumatizovaných buniek.",
+      "Nikdy neprepichujte pľuzgiere – sterilná tekutina vo vnútri prirodzene chráni obnažené nervové zakončenia a zamšu.",
     ],
     protocol: [
       {
         step: 1,
-        title: "Chladenie čistou vlažnou vodou (10-15 minút)",
+        title: "Chladenie čistou vlažnou vodou (10–15 minút)",
         description:
-          "Okamžite ochladzujte postihnuté miesto tečúcou vlažnou vodou (15-20 °C). Chladenie znižuje bolesť a bráni odumieraniu hlbších vrstiev kože.",
+          "Okamžite ochladzujte postihnuté miesto miernym prúdom vlažnej vody (15–20 °C). Chladenie zmierňuje bolesť a bráni prehĺbeniu tepelnej nekrózy.",
       },
       {
         step: 2,
-        title: "Bezbolestná dezinfekcia roztokom Aqvitox-D",
+        title: "Šetrný antiseptický oplach roztokom Aqvitox-D",
         description:
-          "Popálené miesto jemne postriekajte roztokom Aqvitox-D. Nepáli, neštípe a zlikviduje mikróby bez poškodenia novotvoreného epitelu.",
+          "Popálené miesto jemne postriekajte roztokom Aqvitox-D. Nepáli, neštípe a okamžite zlikviduje mikróby bez poškodenia novotvoreného epitelu.",
+        productKey: "aqvitox",
         productRecommendation: "Aqvitox-D roztok",
       },
       {
         step: 3,
         title: "Vlhké hojenie s L-Mesitran Soft",
         description:
-          "Naneste tenkú vrstvu hydroaktívneho gélu s medicínskym medom. Upokojuje bolesť, hydratuje a zabraňuje prilepeniu gázového krytia.",
-        productRecommendation: "L-Mesitran Soft hydrogél",
+          "Naneste rovnomernú vrstvu gélu s 40% medicínskym medom. Okamžite upokojuje pálivú bolesť, hydratuje a zabraňuje prilepeniu sekundárneho krytia.",
+        productKey: "mesitran",
+        productRecommendation: "L-Mesitran Soft gél",
+      },
+      {
+        step: 4,
+        title: "Neadherentné krytie Aqvidine (pri pľuzgieroch)",
+        description:
+          "Ak je koža strhnutá alebo hrozí infekcia, priložte sterilný tylový štvorec Aqvidine s jódom, ktorý sa neprilepí a umožní bezbolestný preväz.",
+        productKey: "aqvidine",
+        productRecommendation: "Aqvidine tylové krytie",
       },
     ],
   },
@@ -66,7 +85,11 @@ export const HEALING_TOPICS: HealingTopic[] = [
     id: "odreniny",
     slug: "odreniny-cestne-popaleniny",
     title: "Akútne odreniny a cestné popáleniny: Liečba bez chrasty",
-    subtitle: "Výplach štrku, ochrana pred infekciou a moderné vlhké hojenie po pádoch",
+    subtitle: "Výplach štrku a prachu, ochrana pred infekciou a moderné vlhké hojenie po pádoch",
+    badge: "Plošné zranenia",
+    accentColor: "#085E95",
+    image: "/images/hojenie-odreniny.jpg",
+    imageAlt: "Bezbolestný výplach cestnej odreniny roztokom Aqvitox-D a vlhké hojenie",
     searchKeywords: [
       "odreniny liečba",
       "cestné popáleniny",
@@ -75,40 +98,46 @@ export const HEALING_TOPICS: HealingTopic[] = [
       "ako sa vyhnúť infekcii z odreniny",
     ],
     excerpt:
-      "Suchá tvrdá chrasta je najväčšou brzdou hojenia - pri každom pohybe praská. Vlhké prostredie umožňuje novým bunkám hladký a rýchly rast.",
+      "Suchá tvrdá chrasta je najväčšou brzdou hojenia – pri každom pohybe v kĺbe praská a krváca. Vlhké prostredie umožňuje novým kožným bunkám migrovať po spodine rany hladko a bez odporu.",
     mistakes: [
-      "Nenanášajte lieh, alkoholovú dezinfekciu ani peroxid vodíka - spôsobujú bolesť a usmrcujú zdravé granulačné bunky.",
-      "Nešúchajte ranu drsnou hubkou ani suchou vatou (vlákna vaty zostanú v rane a vytvoria hnisavý zápal).",
-      "Nenechávajte odreninu 'vysušiť na vzduchu'.",
+      "Nenanášajte lieh, alkoholovú dezinfekciu ani peroxid vodíka – pália a usmrcujú zdravé bunky potrebné na regeneráciu.",
+      "Nešúchajte ranu drsnou hubkou ani suchou vatou (vlákna vaty zostanú v rane a spôsobia hnisavý zápal).",
+      "Nenechávajte odreninu 'vysušiť na vzduchu' – vznikne hrubá chrasta, ktorá zanechá trvalú pigmentovú jazvu.",
     ],
     protocol: [
       {
         step: 1,
         title: "Výdatný bezbolestný výplach roztokom Aqvitox-D",
         description:
-          "Prepláchnite odreninu roztokom Aqvitox-D. Prúd roztoku bezbolestne vyplaví jemné zrnká prachu a štrku bez podráždenia nervových zakončení.",
+          "Prepláchnite odreninu roztokom Aqvitox-D. Prúd roztoku bezbolestne odplaví zrnká prachu a štrku bez podráždenia obnažených nervov.",
+        productKey: "aqvitox",
         productRecommendation: "Aqvitox-D roztok",
       },
       {
         step: 2,
         title: "Antibakteriálna vrstva L-Mesitran Soft",
         description:
-          "Medicínsky med vytvára nepriepustnú bariéru proti baktériám, znižuje opuch a urýchľuje delenie kožných buniek.",
+          "Medicínsky med vytvára nepriepustnú antibakteriálnu bariéru, redukuje edém a stimuluje rýchle delenie buniek bez tvorby chrasty.",
+        productKey: "mesitran",
         productRecommendation: "L-Mesitran Soft hydrogél",
       },
       {
         step: 3,
-        title: "Sterilné nepriľnavé krytie",
+        title: "Fixácia nepriľnavým sterilným obväzom",
         description:
-          "Zafixujte náplasťou alebo obväzom. Obväz vďaka medovému gélu neprischne a výmena prebehne bez bolesti.",
+          "Prekryte nepriľnavým krytím. Vďaka medovému gélu obväz neprischne a výmena prebehne po 24–48 hodinách úplne hladko.",
       },
     ],
   },
   {
-    id: "jazvy",
+    id: "pooperacne",
     slug: "pooperacne-rany-jazvy",
     title: "Pooperačné rany a jazvy: Starostlivosť po vybratí stehov",
     subtitle: "Prevencia hypertrofických a keloidných jaziev v kľúčovom časovom okne",
+    badge: "Chirurgia & Estetika",
+    accentColor: "#1a4b75",
+    image: "/images/hojenie-jazvy.jpg",
+    imageAlt: "Dermatologická starostlivosť o pooperačnú jazvu po vybratí stehov",
     searchKeywords: [
       "pooperačné rany liečba",
       "jazvy po operácii",
@@ -117,31 +146,34 @@ export const HEALING_TOPICS: HealingTopic[] = [
       "masáž jazvy po vybratí stehov",
     ],
     excerpt:
-      "V prvých týždňoch po vybratí stehov sa rozhoduje o tom, či bude jazva elastická a neviditeľná, alebo zhrubnutá a červená.",
+      "V prvých týždňoch po vybratí stehov sa rozhoduje o tom, či bude výsledná jazva jemná, elastická a takmer neviditeľná, alebo zhrubnutá, červená a keloidná. Kľúčom je hydratácia a správna stimulácia kolagénu.",
     mistakes: [
-      "Nevystavujte novú jazvu slnku (UV lúče aktivujú pigmentové bunky a jazva nezvratne stmavne - používajte SPF 50+).",
-      "Nenanášajte mastné krémy, kým sú v rane stehy alebo ak rana presakuje.",
-      "Nezačínajte s agresívnou masážou príliš skoro, aby ste neotvorili nezrelé tkanivo.",
+      "Nevystavujte novú jazvu slnku bez SPF 50+ – UV lúče aktivujú melanocyty a jazva nezvratne stmavne.",
+      "Nenanášajte mastné nesterilné krémy, kým sú v rane stehy alebo ak incízia ešte presakuje.",
+      "Nezačínajte s agresívnou masážou príliš skoro, aby ste neotvorili čerstvé zrastajúce sa tkanivo.",
     ],
     protocol: [
       {
         step: 1,
-        title: "Očistenie línie jazvy roztokom Aqvitox-D",
-        description: "Po jemnom umytí ošetrite miesta po stehoch šetrnou dezinfekciou bez alkoholu.",
+        title: "Očistenie línie rany roztokom Aqvitox-D",
+        description:
+          "Očistite línia incízie a vpichy po stehoch roztokom Aqvitox-D. Predchádza vzniku zápalu bez podráždenia nového epitelu.",
+        productKey: "aqvitox",
         productRecommendation: "Aqvitox-D roztok",
       },
       {
         step: 2,
-        title: "Hĺbková hydratácia gélom L-Mesitran Soft",
+        title: "Hĺbková regenerácia gélom L-Mesitran Soft",
         description:
-          "Medicínsky med dodáva stopové prvky a bráni dehydratácii jazvy, ktorá je primárnym spúšťačom keloidného bujnenia.",
-        productRecommendation: "L-Mesitran Soft",
+          "Medicínsky med dodáva stopové prvky a vitamíny C a E, udržiava jazvu vláčnu a bráni dehydratácii, ktorá spúšťa keloidné bujnenie.",
+        productKey: "mesitran",
+        productRecommendation: "L-Mesitran Soft gél",
       },
       {
         step: 3,
-        title: "Tlaková masáž a fotoprotekcia",
+        title: "Tlaková masáž a ochrana pred UV žiarením",
         description:
-          "Od 3. týždňa vykonávajte jemnú tlakovú masáž (zatlačenie bruškom prsta na 10 sekúnd do zblednutia) a chráňte pred UV žiarením.",
+          "Od 2. až 3. týždňa vykonávajte jemnú tlakovú masáž bruškom prsta (stlačenie na 10 sekúnd do zblednutia) a chráňte pred slnkom.",
       },
     ],
   },
@@ -150,37 +182,48 @@ export const HEALING_TOPICS: HealingTopic[] = [
     slug: "chronicke-rany-dekubity",
     title: "Chronické rany a dekubity: Rozpustenie povlaku a biofilmu",
     subtitle: "Riešenie pre bércové vredy (ulcus cruris), preležaniny a diabetické defekty",
+    badge: "Chronické defekty",
+    accentColor: "#F26F01",
+    image: "/images/hojenie-chronicke.jpg",
+    imageAlt: "Manažment chronických rán, dekubitov a aplikácia antiseptického krytia Aqvidine",
     searchKeywords: [
       "liečba dekubitov doma",
       "bércové vredy liečba",
       "hojenie preležanín",
       "odstránenie zápachu z rany",
+      "jódové krytie na hnisavé rany",
     ],
     excerpt:
-      "Väčšina nehojacich sa rán je blokovaná odolným mikrobiálnym biofilmom. Aqvitox biofilm narúša a L-Mesitran Ointment osmoticky vyťahuje odumreté povlaky.",
+      "Väčšina nehojacich sa rán je zablokovaná odolným mikrobiálnym biofilmom a žltým fibrínovým povlakom. Kyselina chlórna v Aqvitoxe biofilm rozrušuje, medicínsky med autolyticky čistí spodinu a Aqvidine tvorí ochrannú antiseptickú bariéru.",
     mistakes: [
-      "Neodstraňujte povlaky mechanicky nasucho pinzetou - spôsobí to masívne krvácanie a bolesť.",
-      "Nezabúdajte na príčinu: kompresívna terapia pri žilových vredoch a pravidelné polohovanie pri dekubitoch.",
+      "Neodstraňujte povlaky mechanicky nasucho gázou alebo pinzetou – spôsobíte krvácanie a traumatizáciu granulačného lôžka.",
+      "Nezabúdajte na kauzálnu liečbu: kompresívna terapia pri žilových vredoch a pravidelné polohovanie (každé 2 hodiny) pri dekubitoch.",
+      "Neaplikujte bežné náplasti, ktoré sa prilepia na dno rany a pri strhávaní zničia týždne hojenia.",
     ],
     protocol: [
       {
         step: 1,
-        title: "Výplach a obklad s roztokom Aqvitox-D",
+        title: "15-minútový obklad roztokom Aqvitox-D na biofilm",
         description:
-          "Priložte gázu navlhčenú Aqvitoxom na 10-15 minút na rozrušenie bakteriálneho biofilmu.",
+          "Priložte sterilnú gázu výdatne namočenú v Aqvitoxe na 10–15 minút. Kyselina chlórna prenikne biofilmom a rozloží ho.",
+        productKey: "aqvitox",
         productRecommendation: "Aqvitox-D roztok",
       },
       {
         step: 2,
-        title: "Aplikácia L-Mesitran Ointment priamo do defektu",
+        title: "Autolytický debridement s L-Mesitran",
         description:
-          "Vysoký podiel medicínskeho medu (48%) osmoticky odčerpá opuch a bezbolestne rozpustí žlté fibrínové povlaky.",
-        productRecommendation: "L-Mesitran Ointment masť",
+          "Vysoká osmolarita medicínskeho medu vyťahuje prebytočný exsudát, odplavuje zápach a pomáha šetrne rozpúšťať odumretý fibrín.",
+        productKey: "mesitran",
+        productRecommendation: "L-Mesitran Soft / Ointment",
       },
       {
         step: 3,
-        title: "Savé sekundárne krytie",
-        description: "Prekryte sterilným kompresom a preväzujte každých 24-48 hodín.",
+        title: "Bariérové krytie Aqvidine (pri infekcii a sekrécii)",
+        description:
+          "Priložte masťový tyl s PVP jódom Aqvidine. Nelepí sa na ranu, prepúšťa sekrét do savého sekundárneho krytia a chráni pred mikróbmi.",
+        productKey: "aqvidine",
+        productRecommendation: "Aqvidine tylové krytie",
       },
     ],
   },
@@ -190,12 +233,12 @@ export const LONG_TAIL_FAQS: FaqItem[] = [
   {
     question: "Prečo nepatrí na popáleninu maslo, olej ani bravčová masť?",
     answer:
-      "Mastné produkty vytvoria na popálenej koži nepriedušný film, ktorý 'uväzní' teplo v hlbších vrstvách tkaniva namiesto jeho uvoľnenia. Tým sa popálenina ešte viac prehlbuje a navyše hrozí vážna bakteriálna infekcia. Jedinou správnou prvou pomocou je okamžité chladenie čistou vlažnou vodou po dobu 10-15 minút.",
+      "Mastné produkty vytvoria na popálenej koži nepriedušný film, ktorý 'uväzní' teplo v hlbších vrstvách tkaniva namiesto jeho uvoľnenia. Tým sa popálenina ešte viac prehlbuje a navyše hrozí vážna bakteriálna infekcia. Jedinou správnou prvou pomocou je okamžité chladenie čistou vlažnou vodou po dobu 10-15 minút a následné nanesenie hydrogélu na vlhké hojenie.",
   },
   {
     question: "Prečo sa na otvorené rany a odreniny neodporúča lieh ani peroxid vodíka?",
     answer:
-      "Lieh a peroxid vodíka sú síce účinné dezinfekcie, no majú silne cytotoxický účinok - popália a zničia nielen baktérie, ale aj novovznikajúce krehké granulačné a epitelové bunky. Výsledkom je predĺžené hojenie a výraznejšia jazva. Na moderné ošetrenie sa používajú superoxidované roztoky (ako Aqvitox-D), ktoré nepália a nepoškodzujú zdravé tkanivo.",
+      "Lieh a peroxid vodíka sú síce účinné dezinfekcie, no majú silne cytotoxický účinok – popália a zničia nielen baktérie, ale aj novovznikajúce krehké granulačné a epitelové bunky. Výsledkom je predĺžené hojenie, silné pálenie a výraznejšia jazva. Na moderné ošetrenie sa používajú superoxidované roztoky (ako Aqvitox-D s kyselinou chlórnou), ktoré nepália a nepoškodzujú zdravé tkanivo.",
   },
   {
     question: "Čo je to princíp vlhkého hojenia rán a prečo je lepší ako suchá chrasta?",
@@ -208,9 +251,13 @@ export const LONG_TAIL_FAQS: FaqItem[] = [
       "Medicínsky med je gama-sterilizovaný med s vysokým štandardom čistoty. Pôsobí antibakteriálne vďaka prirodzenej produkcii nízkych koncentrácií peroxidu a kyslému pH (3,0 - 4,5). Vďaka vysokej osmolarite vyťahuje z rany tekutinu, čistiace enzýmy a odumretý fibrín, stimuluje novotvorbu ciev a zabraňuje prilepeniu obväzu k rane.",
   },
   {
+    question: "Kedy zvoliť jódové tylové krytie Aqvidine?",
+    answer:
+      "Aqvidine je sterilný neadherentný viskózový tyl napustený masťou s 10% PVP jódom. Je ideálny vtedy, keď je rana infikovaná alebo hrozí kontaminácia (napr. pri dekubitoch, hnisajúcich ranách a plošných popáleninách), a kde je potrebné zabezpečiť, aby krytie neprischlo k rane. Masťový základ zaručuje bezbolestný preväz.",
+  },
+  {
     question: "Čím sa líši Aqvitox-D od bežných dezinfekčných sprejov?",
     answer:
       "Aqvitox-D je elektrochemicky aktivovaný superoxidovaný roztok s obsahom kyseliny chlórnej (HClO), ktorú prirodzene produkujú biele krvinky ľudského tela. Je 100% biokompatibilný, nepáli, nefarbí a účinne rozpúšťa odolný bakteriálny biofilm, na ktorý bežné antiseptiká nestačia.",
   },
 ];
-

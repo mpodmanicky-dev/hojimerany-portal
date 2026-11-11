@@ -43,7 +43,7 @@ export interface ProtocolAction {
   phase: string;
   title: string;
   instruction: string;
-  productKey?: "aqvitox" | "mesitran-soft" | "mesitran-ointment";
+  productKey?: "aqvitox" | "mesitran-soft" | "mesitran-ointment" | "aqvidine";
   educationalNote?: string;
 }
 
